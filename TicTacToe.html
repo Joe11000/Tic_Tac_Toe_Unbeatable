@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<script type="text/javascript" src="src/TTT.js"></script>
+		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		<script src="driverForBoardOnHTML.js"></script>
+		<script src="src/TTT.js"></script>
+		<link rel="stylesheet" href="TicTacToe.css" type="text/css" />
+
+	</head>
+
+	<body>
+		<div id="container">
+			<h1> Unbeatable Tic-Tac-Toe</h1>
+
+			<p id="status">Click 'Start Game' to being new games.</p>
+				<div>
+
+				<table>
+			   	<tr>
+			   			<td id="00"></td>
+			   			<td id="01"></td>
+			   			<td id="02"></td>
+			   	</tr>
+			   	<tr>
+			   			<td id="10"></td>
+			   			<td id="11"></td>
+			   			<td id="12"></td>
+			   	</tr>
+			   	<tr>
+			   			<td id="20"></td>
+			   			<td id="21"></td>
+			   			<td id="22"></td>
+			   	</tr>
+				</table>
+
+				<div id="record">
+					<p id="wins">wins :     <span id="user_wins_total">0</span></p>
+					<br>
+					<p id="losses">losses : <span id="user_losses_total">0</span></p>
+					<br>
+					<p id="ties">ties :     <span id="user_ties_total">0</span></p>
+					<br>
+				</div>
+			</div>
+
+			<form>
+				<label>Who Goes First?</label> <br>
+
+				<label>User </label>
+				<input type="radio" name="goes_first" value="User" checked>
+				<label>Computer </label>
+				<input type="radio" name="goes_first" value="Computer">
+			</form>
+
+			<button id="start">Start New Game</button>
+		</div>
+  </body>
+</html>
