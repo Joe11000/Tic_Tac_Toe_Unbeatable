@@ -1,0 +1,110 @@
+#container
+{
+	width: 80%;
+	margin:auto;
+}
+
+body
+{
+	background-image: url('../images/space.png');
+	background-size: cover;
+	min-width: 450px;
+}
+
+h1
+{
+	text-align: center;
+}
+
+#status
+{
+	font-size: 16;
+	text-align: center;
+	color: lightblue;
+}
+
+table
+{
+	background-color: #111;
+	box-shadow: 1px 1px 25px #DDD inset;
+	border-radius: 25px;
+
+	width: 55vmin;
+	height: 55vmin;
+	margin: 20px auto;
+	padding: 3vmin;
+	min-width: 250px;
+	min-height: 250px;
+	max-width: 450px;
+	max-height: 450px;
+}
+
+td
+{
+	border-radius: 25px;
+	border: 3px solid #444;
+	background-color: darkgray;
+	box-shadow: 0px 0px 35px #00A inset;
+	margin: 10%;
+	max-width: 100px;
+	max-height: 100px;
+	background-size:40px 40px;
+	background-repeat:no-repeat;
+	background-position: center;
+}
+
+.computer
+{
+	background-image: url('../images/HAL9000.png');
+	background-size: 50% 50%;
+}
+
+.user
+{
+	background-image: url('../images/astronaut_icon.png');
+	background-size: 50% 50%;
+}
+
+form
+{
+	margin: auto;
+	max-width: 50%;
+}
+
+form label:first-child
+{
+   position: relative;
+   left:15px;
+   color:white;
+}
+
+form #form_body
+{
+   width:150px;
+   margin:auto;
+}
+
+button
+{
+	margin-left:auto;
+	margin-right:auto;
+	width:115px;
+	margin-bottom: 15px;
+	display: block;
+}
+
+p, label
+{
+	color: lightblue;
+}
+
+h1
+{
+	color: white;
+}
+
+#record p
+{
+	display: inline;
+	padding-right: 10px
+}
