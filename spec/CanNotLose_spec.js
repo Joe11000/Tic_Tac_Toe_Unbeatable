@@ -26,6 +26,9 @@ var play_all_possible_games = function(computer_moves_first)
   var computer_games_tied = 0;
   var computer_games_won  = 0;
 
+  var computer = new Computer();
+	var user = new User();
+
 	// all possible USER attempts. Branch and Bound.
 	for(var move1 = 0; move1 < 9; move1++)
 	{
@@ -45,81 +48,80 @@ var play_all_possible_games = function(computer_moves_first)
 		    	{
 		    		if(move5 == move1 || move5 == move2 || move5 == move3 || move5 == move4){ continue }
 
-	    		  var g = new Game(computer_moves_first);
+	    		  var game = new Game(computer_moves_first);
 
 	    			if( computer_moves_first )
-	    				g.computerChoose();
+	    				computer.choose(game);
 
-		    		if( ! g.userChoose(SPOTS[move1]) )
+		    		if( ! user.choose(SPOTS[move1], game) )
 							continue;
 
-						g.computerChoose();
-		    		if(! g.userChoose(SPOTS[move2]) )
+						computer.choose(game);
+		    		if(! user.choose(SPOTS[move2], game) )
 						  continue;
 
-						g.computerChoose();
-						if(g.isGameOver())
+						computer.choose(game);
+						if(game.isGameOver())
 						{
-							switch(g.hasWinner())
+							switch(game.hasWinner())
 							{
 								case "Computer" : computer_games_won++; break;
-								case "User"     : computer_games_lost++; g.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
+								case "User"     : computer_games_lost++; game.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
 								default         : computer_games_tied++;
 							}
 							continue;
 						}
 
-
-		    		if(! g.userChoose(SPOTS[move3]))
+		    		if(! user.choose(SPOTS[move3], game))
 							continue;
-						if(g.isGameOver())
+						if(game.isGameOver())
 						{
-							switch(g.hasWinner())
+							switch(game.hasWinner())
 							{
 								case "Computer" : computer_games_won++; break;
-								case "User"     : computer_games_lost++; g.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
+								case "User"     : computer_games_lost++; game.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
 								default         : computer_games_tied++;
 							}
 							continue;
 						}
 
-						g.computerChoose();
-						if(g.isGameOver())
+						computer.choose(game);
+						if(game.isGameOver())
 						{
-							switch(g.hasWinner())
+							switch(game.hasWinner())
 							{
 								case "Computer" : computer_games_won++; break;
-								case "User"     : computer_games_lost++; g.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
+								case "User"     : computer_games_lost++; game.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
 								default         : computer_games_tied++;
 							}
 							continue;
 						}
 
-		    		if(! g.userChoose(SPOTS[move4])) // computer move 4
+		    		if(! user.choose(SPOTS[move4], game)) // computer move 4
 							continue;
-						if(g.isGameOver())
+						if(game.isGameOver())
 						{
-							switch(g.hasWinner())
+							switch(game.hasWinner())
 							{
 								case "Computer" : computer_games_won++; break;
-								case "User"     : computer_games_lost++; g.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
+								case "User"     : computer_games_lost++; game.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
 								default         : computer_games_tied++;
 							}
 							continue;
 						}
 
 					  if( computer_moves_first)
-							g.computerChoose();
+							computer.choose(game);
 						else
-			    		if(! g.userChoose(SPOTS[move5]))
+			    		if(! user.choose(SPOTS[move5], game))
 			    		 continue;
 
-						if(g.isGameOver())
+						if(game.isGameOver())
 						{
-							switch(g.hasWinner())
+							switch(game.hasWinner())
 							{
 								case "Computer" : computer_games_won++; break;
-								case "User"     : computer_games_lost++; g.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
+								case "User"     : computer_games_lost++; game.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
 								default         : computer_games_tied++;
 							}
 							continue;
@@ -159,5 +161,3 @@ describe("Every possible game outcome", function()
 		console.log("ties "  + computer_record[2] );
 	});
 });
-
-

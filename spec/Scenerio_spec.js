@@ -19,20 +19,34 @@ describe("Game", function()
 	var BOTTOM = 2;
 	var RIGHT  = 2;
 
-  var SPOTS = [
-                [TOP, LEFT],   [TOP, MIDDLE],   [TOP, RIGHT],
-                [MIDDLE, LEFT],[MIDDLE, MIDDLE],[MIDDLE, RIGHT],
-                [BOTTOM, LEFT],[BOTTOM, MIDDLE],[BOTTOM, RIGHT]
-              ]
-
   var USER_FIRST_CHOICE  = [TOP, RIGHT];
   var USER_SECOND_CHOICE = [MIDDLE, RIGHT];
   var computer_first_choice = [0,0];  // temp values of this future used "constant"
   var computer_second_choice = [0,0]; // temp values of this future used "constant"
 
+  var SPOTS = [
+                [TOP,    LEFT], [TOP,    MIDDLE], [TOP,    RIGHT],
+                [MIDDLE, LEFT], [MIDDLE, MIDDLE], [MIDDLE, RIGHT],
+                [BOTTOM, LEFT], [BOTTOM, MIDDLE], [BOTTOM, RIGHT]
+              ]
+
+   var findSpotContaining = function(piece_looking_for, game)
+   {
+   	 for(var i = 0; i < 9; i++)
+   	 {
+   	 	 if(game.board[ SPOTS[i][0] ][ SPOTS[i][1] ] == piece_looking_for)
+   	 	 	{
+   	 	 		var returning = SPOTS[i];
+   	 	 		return(returning);
+   	 	 	}
+   	 }
+   }
+
 	describe("sample game", function()
 	{
 	  game = new Game(COMPUTER_TURN_FIRST);
+	  computer = new Computer();
+	  user = new User();
 
 		describe("computer turn 1", function()
 		{
@@ -40,7 +54,7 @@ describe("Game", function()
 		  {
 		  	it("see what round it is", function()
 				{
-					expect(game.getRound()).toBe(1);
+					expect(game.round).toBe(1);
 				});
 
 				it("query #whoseTurn() -> 'Computer'", function()
@@ -65,10 +79,11 @@ describe("Game", function()
 				{
 					it("choose any open spot", function()
 					{
-						expect(game.getRound()).toBe(1);
-						expect(game.userChoose(USER_FIRST_CHOICE)).toBe(false);
+						expect(game.round).toBe(1);
 
-						expect(game.getBoard()).toEqual(test_board);
+						expect(user.choose(findSpotContaining(EMPTY_ICON, game), game)).toBe(false);
+
+						expect(game.board).toEqual(test_board);
 					});
 				});
 			});
@@ -79,11 +94,11 @@ describe("Game", function()
 				{
 					it("choose an empty spot", function()
 					{
-						computer_first_choice = game.computerChoose();
+						computer_first_choice = computer.choose(game);
 						expect(computer_first_choice).not.toBe(false);
 						test_board[computer_first_choice[0]][computer_first_choice[1]] = COMPUTER_ICON;
 
-						expect(game.getBoard()).toEqual(test_board);
+						expect(game.board).toEqual(test_board);
 					});
 				});
 			});
@@ -95,7 +110,7 @@ describe("Game", function()
 		  {
 		  	it("see what round it is", function()
 				{
-					expect(game.getRound()).toBe(2);
+					expect(game.round).toBe(2);
 				});
 
 				it("query #whoseTurn() -> 'User'", function()
@@ -120,9 +135,9 @@ describe("Game", function()
 				{
 					it("choose an empty spot", function()
 					{
-						expect(game.computerChoose()).toBe(false);
+						expect(computer.choose(game)).toBe(false);
 
-						expect(game.getBoard()).toEqual(test_board);
+						expect(game.board).toEqual(test_board);
 					});
 				});
 			});
@@ -133,9 +148,9 @@ describe("Game", function()
 				{
 					it("choose any taken spot", function()
 					{
-						expect(game.userChoose(computer_first_choice)).toBe(false);
+						expect(user.choose(findSpotContaining(COMPUTER_ICON, game), game)).toBe(false);
 
-						expect(game.getBoard()).toEqual(test_board);
+						expect(game.board).toEqual(test_board);
 					});
 				});
 
@@ -143,16 +158,17 @@ describe("Game", function()
 				{
 					it("choose any open spot", function()
 					{
-						expect(game.userChoose(USER_FIRST_CHOICE)).toEqual(USER_FIRST_CHOICE);
+						USER_FIRST_CHOICE = findSpotContaining(EMPTY_ICON, game);
 
-						test_board[USER_FIRST_CHOICE[0]][USER_FIRST_CHOICE[1]] = USER_ICON;
+						expect(user.choose(USER_FIRST_CHOICE, game)).toEqual(USER_FIRST_CHOICE);
 
-						expect(game.getBoard()).toEqual(test_board);
+						test_board[ USER_FIRST_CHOICE[0] ][ USER_FIRST_CHOICE[1] ] = USER_ICON;
+
+						expect(game.board).toEqual(test_board);
 					});
 				});
 			});
 		});
-
 
 		describe("computer turn 2", function()
 		{
@@ -160,7 +176,7 @@ describe("Game", function()
 		  {
 		  	it("see what round it is", function()
 				{
-					expect(game.getRound()).toBe(3);
+					expect(game.round).toBe(3);
 				});
 
 				it("query #whoseTurn() -> 'Computer'", function()
@@ -187,9 +203,9 @@ describe("Game", function()
 					{
 						expect(game.whoseTurn()).toBe("Computer");
 
-						expect(game.userChoose()).toBe(false);
+						expect(user.choose(findSpotContaining(EMPTY_ICON, game), game)).toBe(false);
 
-						expect(game.getBoard()).toEqual(test_board);
+						expect(game.board).toEqual(test_board);
 					});
 				});
 			});
@@ -200,18 +216,18 @@ describe("Game", function()
 				{
 					it("choose any spot taken by computer", function()
 					{
-						expect(game.userChoose(computer_first_choice)).toBe(false);
+						expect(user.choose(computer_first_choice, game)).toBe(false);
 
-						expect(game.getBoard()).toEqual(test_board);
+						expect(game.board).toEqual(test_board);
 
 						expect(game.whoseTurn()).toBe("Computer");
 					});
 
 					it("choose any spot taken by user", function()
 					{
-						expect(game.userChoose(USER_FIRST_CHOICE)).toBe(false);
+						expect(user.choose(USER_FIRST_CHOICE, game)).toBe(false);
 
-						expect(game.getBoard()).toEqual(test_board);
+						expect(game.board).toEqual(test_board);
 
 						expect(game.whoseTurn()).toBe("Computer");
 					});
@@ -221,15 +237,15 @@ describe("Game", function()
 				{
 					it("choose any open spot", function()
 					{
-						expect(game.getRound()).toBe(3);
+						expect(game.round).toBe(3);
 
-						computer_second_choice = game.computerChoose();
+						computer_second_choice = computer.choose(game);
 
 						expect(computer_second_choice).not.toBe(false);
 
 						test_board[computer_second_choice[0]][computer_second_choice[1]] = COMPUTER_ICON;
 
-						expect(game.getBoard()).toEqual(test_board);
+						expect(game.board).toEqual(test_board);
 					});
 				});
 

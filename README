@@ -5,9 +5,6 @@ TicTacToe.html - Play Game in Browser
 Jasmine stand alone framework used for testing 2 sepearte specs
   * spec/canNotLose_spec.js  -- brute force test for all ways to beat game. Displays log results in console for more information. ie(total wins, loses, ties)
 
-  * spec Scenerio_spec  -- tests first 3 moves of a game and tests all possible moves that exist.
+  * spec Scenerio_spec  -- tests first 3 moves of a game while testing all possible method calls that could be called by either player.
 
-SpecRunner.html -- run all JS tests 
-
-
-
+SpecRunner.html -- run all JS tests
