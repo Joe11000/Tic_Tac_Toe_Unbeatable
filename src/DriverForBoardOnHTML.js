@@ -73,7 +73,7 @@ $(function()
 		}
 	});
 
-	// user clicked spot
+	// user clicked board position
 	$('td').click(function(e)
 	{
 		if(game_underway && game.whoseTurn() == "User" )
