@@ -50,6 +50,9 @@ var play_all_possible_games = function(computer_moves_first)
 
 	    		  var game = new Game(computer_moves_first);
 
+	    			if(move1 == 0 && move2 == 8 && move3 == 7 && move4 == 2 && move5 == 3)
+	    				console.log("I should tie");
+
 	    			if( computer_moves_first )
 	    				computer.choose(game);
 
@@ -99,6 +102,7 @@ var play_all_possible_games = function(computer_moves_first)
 
 		    		if(! user.choose(SPOTS[move4], game)) // computer move 4
 							continue;
+
 						if(game.isGameOver())
 						{
 							switch(game.hasWinner())
@@ -133,6 +137,49 @@ var play_all_possible_games = function(computer_moves_first)
 	}
 	return([computer_games_won, computer_games_lost, computer_games_tied])
 }
+
+var turn = 1;
+while(turn <= 9)
+{
+	if(game.whoseTurn() == "Computer") // computer turn
+		c.choose(game)
+	else									             // user turn
+	{
+		var location;
+		switch(turn)                     // determine which user move it is
+		{
+			case 1, 2 : move = move1;
+
+			case 3, 4 : move = move2;
+
+			case 5, 6 : move = move3;
+
+			case 7, 8 : move = move4;
+
+			case 9    : move = move5;
+		}
+		u.choose(move, game)           // user make move
+	}
+
+
+	if(game.round >= 5)              // test for a possible win starting round 5
+	{
+		if(game.isGameOver())
+		{
+			switch(game.hasWinner())
+			{
+				case "Computer" : computer_games_won++; break;
+				case "User"     : computer_games_lost++; game.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
+				default         : computer_games_tied++;
+			}
+			continue;
+		}
+	}
+}
+
+
+
+
 
 describe("Every possible game outcome", function()
 {
