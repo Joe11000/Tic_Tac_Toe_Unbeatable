@@ -1,4 +1,4 @@
-var play_all_possible_games = function(computer_moves_first)
+var play_all_possible_games = function(does_computer_move_first)
 {
   var USER_ICON       = "U"
 	var COMPUTER_ICON   = "C"
@@ -46,90 +46,52 @@ var play_all_possible_games = function(computer_moves_first)
 
 	        for(var move5 = 0; move5 < 9; move5++)
 		    	{
-		    		if(move5 == move1 || move5 == move2 || move5 == move3 || move5 == move4){ continue }
 
-	    		  var game = new Game(computer_moves_first);
+		    		if(does_computer_move_first == false && move1 == 0 && move2 == 8 && move3 == 7 &&  move4 == 2 && move5 == 3)
+		    			{ console.log("debug from here"); }
+		    		game = new Game(does_computer_move_first);
 
-	    			if(move1 == 0 && move2 == 8 && move3 == 7 && move4 == 2 && move5 == 3)
-	    				console.log("I should tie");
+		    		var turn = 1;
+            while(turn <= 9)
+            {
+            	if(game.whoseTurn() == "Computer") // computer turn
+            		computer.choose(game)
+            	else									             // user turn
+            	{
+            		var move;
+            		switch(turn)                     // determine which user move it is
+            		{
+            			case 1:
+            			case 2: user.choose(SPOTS[move1], game); break;
 
-	    			if( computer_moves_first )
-	    				computer.choose(game);
+            			case 3:
+            			case 4: user.choose(SPOTS[move2], game); break;
 
-		    		if( ! user.choose(SPOTS[move1], game) )
-							continue;
+            			case 5:
+            			case 6: user.choose(SPOTS[move3], game); break;
 
-						computer.choose(game);
-		    		if(! user.choose(SPOTS[move2], game) )
-						  continue;
+            			case 7:
+            			case 8: user.choose(SPOTS[move4], game); break;
 
-						computer.choose(game);
-						if(game.isGameOver())
-						{
-							switch(game.hasWinner())
-							{
-								case "Computer" : computer_games_won++; break;
-								case "User"     : computer_games_lost++; game.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
-								default         : computer_games_tied++;
-							}
-							continue;
-						}
+            			case 9: user.choose(SPOTS[move5], game);
+            		}
+            	}
 
-		    		if(! user.choose(SPOTS[move3], game))
-							continue;
-						if(game.isGameOver())
-						{
-							switch(game.hasWinner())
-							{
-								case "Computer" : computer_games_won++; break;
-								case "User"     : computer_games_lost++; game.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
-								default         : computer_games_tied++;
-							}
-							continue;
-						}
-
-						computer.choose(game);
-						if(game.isGameOver())
-						{
-							switch(game.hasWinner())
-							{
-								case "Computer" : computer_games_won++; break;
-								case "User"     : computer_games_lost++; game.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
-								default         : computer_games_tied++;
-							}
-							continue;
-						}
-
-		    		if(! user.choose(SPOTS[move4], game)) // computer move 4
-							continue;
-
-						if(game.isGameOver())
-						{
-							switch(game.hasWinner())
-							{
-								case "Computer" : computer_games_won++; break;
-								case "User"     : computer_games_lost++; game.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
-								default         : computer_games_tied++;
-							}
-							continue;
-						}
-
-					  if( computer_moves_first)
-							computer.choose(game);
-						else
-			    		if(! user.choose(SPOTS[move5], game))
-			    		 continue;
-
-						if(game.isGameOver())
-						{
-							switch(game.hasWinner())
-							{
-								case "Computer" : computer_games_won++; break;
-								case "User"     : computer_games_lost++; game.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
-								default         : computer_games_tied++;
-							}
-							continue;
-						}
+            	if(game.round >= 5)              // test for a possible win starting round 5
+            	{
+            		if(game.isGameOver())
+            		{
+            			switch(game.hasWinner())
+            			{
+            				case "Computer" : computer_games_won++; break;
+            				case "User"     : computer_games_lost++; game.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
+            				default         : computer_games_tied++;
+            			}
+            			break;
+            		}
+            	}
+              turn++;
+            }
 		    	}
 		    }
 		  }
@@ -138,70 +100,27 @@ var play_all_possible_games = function(computer_moves_first)
 	return([computer_games_won, computer_games_lost, computer_games_tied])
 }
 
-var turn = 1;
-while(turn <= 9)
-{
-	if(game.whoseTurn() == "Computer") // computer turn
-		c.choose(game)
-	else									             // user turn
-	{
-		var location;
-		switch(turn)                     // determine which user move it is
-		{
-			case 1, 2 : move = move1;
-
-			case 3, 4 : move = move2;
-
-			case 5, 6 : move = move3;
-
-			case 7, 8 : move = move4;
-
-			case 9    : move = move5;
-		}
-		u.choose(move, game)           // user make move
-	}
-
-
-	if(game.round >= 5)              // test for a possible win starting round 5
-	{
-		if(game.isGameOver())
-		{
-			switch(game.hasWinner())
-			{
-				case "Computer" : computer_games_won++; break;
-				case "User"     : computer_games_lost++; game.printBoard(); console.log(move1 + " " + move2 + " " + move3 + " " + move4 + " " + move5); break;
-				default         : computer_games_tied++;
-			}
-			continue;
-		}
-	}
-}
-
-
-
-
-
 describe("Every possible game outcome", function()
 {
   describe("user moves first", function()
 	{
+		console.log("user first");
 		var computer_record = play_all_possible_games(false);
 
 		it("computer never lost", function() { expect(computer_record[1]).toBe(0); });
 
-		console.log("user first");
 		console.log("computer");
 		console.log("wins "  + computer_record[0] );
 		console.log("loses " + computer_record[1] );
-		console.log("ties "  + computer_record[2] );
+		console.log("ties "  + computer_record[2] + "\n");
 	});
 
   describe("computer moves first", function()
 	{
+		console.log("computer first");
 		var computer_record = play_all_possible_games(true);
 
 		it("computer never lost", function() { expect(computer_record[1]).toBe(0); });
-		console.log("computer first");
 		console.log("computer");
 		console.log("wins "  + computer_record[0] );
 		console.log("loses " + computer_record[1] );

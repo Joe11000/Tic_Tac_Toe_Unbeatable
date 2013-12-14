@@ -301,10 +301,29 @@ function Computer()
                  (game.board[BOTTOM][RIGHT] == USER_ICON && (game.board[TOP][MIDDLE] == USER_ICON   || game.board[MIDDLE][LEFT]   == USER_ICON ))
                )
         {
-          if(game.board[MIDDLE][LEFT]  == EMPTY_ICON && game.board[MIDDLE][RIGHT] == EMPTY_ICON)
-            return([MIDDLE, LEFT]);
-          else
-            return([TOP, MIDDLE]);
+          if(game.board[TOP][LEFT] == USER_ICON)
+            if(game.board[MIDDLE][RIGHT] == USER_ICON)
+              return([TOP, RIGHT]);
+            else
+              return([BOTTOM, LEFT]);
+
+          else if(game.board[TOP][RIGHT] == USER_ICON)
+            if(game.board[MIDDLE][LEFT] == USER_ICON)
+              return([TOP, LEFT]);
+            else
+              return([BOTTOM, RIGHT]);
+
+          else if(game.board[BOTTOM][LEFT] == USER_ICON)
+            if(game.board[TOP][MIDDLE] == USER_ICON)
+              return([TOP, LEFT]);
+            else
+              return([BOTTOM, RIGHT]);
+
+          else if(game.board[BOTTOM][RIGHT] == USER_ICON)
+            if(game.board[TOP][MIDDLE] == USER_ICON)
+              return([TOP, RIGHT]);
+            else
+              return([BOTTOM, LEFT]);
         }
         else if ( game.board[TOP][LEFT] == USER_ICON && (game.board[MIDDLE][RIGHT] == USER_ICON || game.board[MIDDLE][BOTTOM] == USER_ICON) )
         {
